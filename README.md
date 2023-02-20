@@ -416,11 +416,11 @@ Map<String,String> en = {};
 ## Example
 
 ### Incorrect services rules
-<img src="https://github.com/rollingglory/GloryConventionLint-flutter/blob/master/resource/incorrect_service_rule.png"> </img>
+<img src="https://github.com/rollingglory/GloryConventionLint-flutter/blob/main/resource/incorrect_service_rule.png"> </img>
 
 
 ### Visual Studio Code problem reports 
-<img src="https://github.com/rollingglory/GloryConventionLint-flutter/blob/master/resource/incorrect_service_rule_problems.png"> </img>
+<img src="https://github.com/rollingglory/GloryConventionLint-flutter/blob/main/resource/incorrect_service_rule_problems.png"> </img>
 
 &nbsp;
 ### Other Information
