@@ -5,20 +5,17 @@
 &nbsp;
 &nbsp;
 # GloryConventionLint-Flutter
-GloryConventionLint is code judgment for Convention Lint Flutter support IDE Android Studio/Visual Studio Code.
+GloryConventionLint is code judgment for Convention Lint Flutter support IDE Android Studio/ Visual Studio Code.
 &nbsp;
 
 
 
 ## Setup
 - add glory_convention_lint into `package.yaml`
-~~~ bash
-$ flutter pub add --dev glory_convention_lint
-~~~
 
 ~~~yaml
 dev_dependencies:
-  glory_convention_lint: ^1.0.0
+  glory_convention_lint: ^0.0.1
   custom_lint: ^0.2.5
 ~~~
 
@@ -32,7 +29,7 @@ analyzer:
 ~~~
 
 
-## Conventions
+## Convention
 
 #### Model Convention
 * [Model class name convention](#model-class-name-convention)
@@ -46,7 +43,7 @@ analyzer:
 * [Service annotation convention](#service-annotation-convention)
 
 #### Enum Convention
-* [Enum name convention](#enum-name-convention)
+* [Enum class name convention](#enum-class-name-convention)
 * [Enum file name convention](#enum-file-name-convention)
 
 #### Request Convention
@@ -65,7 +62,7 @@ analyzer:
 * [One variable for lang convention](#prefer-one-variable-for-language-convention) 
 
 &nbsp;
-## Examples
+## Example
 
 #### Model Convention Example
 * [Model class name convention example](#model-class-name-convention-example)
@@ -79,12 +76,12 @@ analyzer:
 * [Service annotation convention example](#service-annotation-convention-example)
 
 #### Enum Convention Example
-* [Enum name convention example](#enum-name-convention-example)
+* [Enum class name convention example](#enum-class-name-convention-example)
 * [Enum file name convention example](#enum-file-name-convention-example)
 
 &nbsp;
 ---
-# Conventions
+# Convention
 ## Model Convention
 ### Model class name convention
 Ensure to add Model word at the end of class name in models file
@@ -134,7 +131,7 @@ Fields of Model class is preferable to have nullable field. example : String? in
 ~~~
 
 ## Service Convention
-### Service class name convention
+#### Service class name convention
 Ensure to add Services word at the end of class name in models file
 ~~~dart
 //DO
@@ -349,7 +346,7 @@ Response file must always be put inside of response directory.
     </tbody>
 </table>
 
-### Prefer single class per file convention
+#### Prefer single class per file convention
 Avoid Declaring multiple classes in one file. It is best practice to declare one class in one file instead of multiple of class in one files, to reduce
 confusion. 
 ~~~dart
@@ -363,7 +360,7 @@ class One = {};
 class Two = {};
 ~~~
 
-### Prefer static const lang variable convention
+#### Prefer static const lang variable convention
 Declare variable as static const.
 ~~~dart
 //DO
@@ -377,7 +374,7 @@ class One {
 }
 ~~~
 
-### Base response import convention
+#### Base response import convention
 Both BaseResponse and BaseListResponse must be implemented and imported from rollingglory_codebase
 When an application communicates to the backend via API calls, we usually receive two type of responses. single object and multi objects.
 both types need to be implemented in service file, the service file is actually an abstract class that contains 
@@ -395,7 +392,7 @@ class One {
 }
 ~~~
 
-### Prefer one variable for language convention
+#### Prefer one variable for language convention
 Ensure to separate the variable that represents a language, one class is supposed to have one variable.
 
 ~~~dart
@@ -414,13 +411,36 @@ Map<String,String> en = {};
 ~~~
 
 ## Example
+#### Model Convention
+#### Model class name convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/model_class_convention.png"> </img>
 
-### Incorrect services rules
-<img src="https://github.com/rollingglory/GloryConventionLint-flutter/blob/master/resource/incorrect_service_rule.png"> </img>
+#### Model file name convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/model_file_convention.png"> </img>
+
+#### Model annotation convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/model_annotation_convention.png"> </img>
+
+#### Prefer nullable for models convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/model_nullable_convention.png"> </img>
 
 
-### Visual Studio Code problem reports 
-<img src="https://github.com/rollingglory/GloryConventionLint-flutter/blob/master/resource/incorrect_service_rule_problems.png"> </img>
+#### Service Convention
+#### Service class name convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/service_class_convention.png"> </img>
+
+#### Service file name convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/service_file_convention.png"> </img>
+
+#### Service annotation convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/service_annotation_convention.png"> </img>
+
+#### Enum Convention
+#### Enum class name convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/enum_class_convention.png"> </img>
+
+#### Enum file name convention example
+<img src="https://github.com/ibnu009/rgb_lint_playground/blob/master/resource/enum_file_convention.png"> </img>
 
 &nbsp;
 ### Other Information
