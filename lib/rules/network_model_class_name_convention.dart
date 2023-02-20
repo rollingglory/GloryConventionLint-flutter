@@ -2,19 +2,18 @@ import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:glory_convention_lint/helper/lint_type_constant.dart';
-import 'package:glory_convention_lint/helper/string_extention.dart';
 
 import '../helper/documentation_constants.dart';
+import '../helper/string_extention.dart';
 
 class NetworkModelClassNameConvention extends DartLintRule {
-  NetworkModelClassNameConvention() : super(code: _code);
+  const NetworkModelClassNameConvention() : super(code: _code);
 
   static const _code = LintCode(
     name: 'network_model_class_name_convention',
-    problemMessage: "⚠️The class name incorrect name for model class. "
-        "Model class should only contains their name without prefixes. Example: Gift, User",
-    correctionMessage: "${DocumentationConstants.modelClassNameConvention}",
+    problemMessage: '⚠️The class name incorrect name for model class. '
+        'Model class should only contains their name without prefixes. Example: Gift, User',
+    correctionMessage: DocumentationConstants.modelClassNameConvention,
       errorSeverity: ErrorSeverity.WARNING
   );
 
@@ -25,15 +24,15 @@ class NetworkModelClassNameConvention extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
+      final declaredElement = node.declaredElement;
       if (declaredElement != null) {
-        var fileName = declaredElement.source.uri.path;
-        var classes = declaredElement.classes;
+        final fileName = declaredElement.source.uri.path;
+        final classes = declaredElement.classes;
 
-        for (var classInstance in classes) {
-          var offset = classInstance.nameOffset;
-          var length = classInstance.nameLength;
-          var name = classInstance.name;
+        for (final classInstance in classes) {
+          final offset = classInstance.nameOffset;
+          final length = classInstance.nameLength;
+          final name = classInstance.name;
 
           if (fileName.isPathModel()) {
             if (!name.isCorrectModelClassName()) {
@@ -59,21 +58,21 @@ class _RenameModelClass extends DartFix {
     List<AnalysisError> others,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
-      var classes = declaredElement?.classes;
+      final declaredElement = node.declaredElement;
+      final classes = declaredElement?.classes;
 
       if (classes == null || classes.isEmpty) return;
-      var className = classes.first.name;
-      String correctName = className.rawClassName;
+      final className = classes.first.name;
+      final correctName = className.rawClassName;
 
-      var offset = classes.first.nameOffset;
-      var length = classes.first.nameLength;
+      final offset = classes.first.nameOffset;
+      final length = classes.first.nameLength;
 
-      final changeBuilder = reporter.createChangeBuilder(
+      reporter.createChangeBuilder(
         message: 'Change to $correctName',
         priority: 1,
-      );
-      changeBuilder.addDartFileEdit((builder) {
+      )
+      .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           SourceRange(offset, length),
           correctName,

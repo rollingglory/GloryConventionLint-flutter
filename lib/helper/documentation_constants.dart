@@ -1,12 +1,14 @@
 //Always make sure to end with #
-const baseDocumentationUrl =
-    "https://github.com/rollingglory/GloryConventionLint-flutter/blob/master/README.md#";
+// ignore_for_file: prefer_single_quotes, unnecessary_brace_in_string_interps
 
-const viewDocumentation = "View Documentation:\n";
+const baseDocumentationUrl =
+    'https://github.com/rollingglory/GloryConventionLint-flutter/blob/master/README.md#';
+
+const viewDocumentation = 'View Documentation:\n';
 
 class DocumentationConstants {
   static const modelClassNameConvention =
-      "${viewDocumentation}${baseDocumentationUrl}model-class-name-convention";
+      "$viewDocumentation${baseDocumentationUrl}model-class-name-convention";
   static const modelFileNameConvention =
       "${viewDocumentation}${baseDocumentationUrl}model-file-name-convention";
   static const modelAnnotationConvention =

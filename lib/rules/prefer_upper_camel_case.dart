@@ -8,7 +8,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 import '../../helper/string_extention.dart';
 
 class PreferUpperCamelCase extends DartLintRule {
-  PreferUpperCamelCase() : super(code: _code);
+  const PreferUpperCamelCase() : super(code: _code);
 
   static const _code = LintCode(
     name: 'prefer_upper_camel_case',
@@ -20,7 +20,7 @@ class PreferUpperCamelCase extends DartLintRule {
   void run(CustomLintResolver resolver, ErrorReporter reporter,
       CustomLintContext context) {
     void check(Token name) {
-      var lexeme = name.lexeme;
+      final lexeme = name.lexeme;
       if (!lexeme.isUpperCamelCase()) {
         reporter.reportErrorForToken(
           _code,
@@ -50,7 +50,7 @@ class PreferUpperCamelCase extends DartLintRule {
     });
     context.registry.addExtensionDeclaration(
       (node) {
-        var name = node.name;
+        final name = node.name;
         if (name != null) {
           check(name);
         }

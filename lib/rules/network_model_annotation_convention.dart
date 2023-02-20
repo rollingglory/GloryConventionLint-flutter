@@ -8,12 +8,12 @@ import 'package:glory_convention_lint/helper/documentation_constants.dart';
 import 'package:glory_convention_lint/helper/string_extention.dart';
 
 class NetworkModelAnnotationConvention extends DartLintRule {
-  NetworkModelAnnotationConvention() : super(code: _code);
+  const NetworkModelAnnotationConvention() : super(code: _code);
 
   static const _code = LintCode(
       name: 'network_model_annotation_convention',
       problemMessage:
-          "⚠️JsonSerializable Annotation is required to declare model for retrofit pattern.",
+          '⚠️JsonSerializable Annotation is required to declare model for retrofit pattern.',
       correctionMessage:
           "You have to add '@JsonSerializable()' on top of your model class. \n\n${DocumentationConstants.modelAnnotationConvention}",
       errorSeverity: ErrorSeverity.WARNING);
@@ -25,11 +25,11 @@ class NetworkModelAnnotationConvention extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
+      final declaredElement = node.declaredElement;
       if (declaredElement != null) {
-        bool isLintSatisfied = false;
-        var fileName = declaredElement.source.uri.path;
-        var classes = declaredElement.classes;
+        var isLintSatisfied = false;
+        final fileName = declaredElement.source.uri.path;
+        final classes = declaredElement.classes;
 
         if (!fileName.isPathModel()) {
           return;
@@ -40,10 +40,10 @@ class NetworkModelAnnotationConvention extends DartLintRule {
           return;
         }
 
-        for (var declaration in node.declarations) {
+        for (final declaration in node.declarations) {
           if (declaration is ClassDeclaration) {
             final classAnnotations = declaration.metadata;
-            for (var annotation in classAnnotations) {
+            for (final annotation in classAnnotations) {
               final evaluatedAnnotation = annotation.name.name;
               if (evaluatedAnnotation.contains('JsonSerializable')) {
                 isLintSatisfied = true;
@@ -62,9 +62,9 @@ class NetworkModelAnnotationConvention extends DartLintRule {
           return;
         }
 
-        ClassElement classInstance = classes.first;
-        var offset = classInstance.nameOffset;
-        var length = classInstance.nameLength;
+        final classInstance = classes.first;
+        final offset = classInstance.nameOffset;
+        final length = classInstance.nameLength;
 
         reporter.reportErrorForOffset(code, offset, length);
       }
@@ -85,18 +85,18 @@ class _AddJsonAnnotation extends DartFix {
     List<AnalysisError> others,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
-      var classes = declaredElement?.classes;
-      int classLength = 'class '.length;
+      final declaredElement = node.declaredElement;
+      final classes = declaredElement?.classes;
+      const classLength = 'class '.length;
 
       if (classes == null || classes.isEmpty) return;
-      var offset = classes.first.nameOffset;
+      final offset = classes.first.nameOffset;
 
-      final changeBuilder = reporter.createChangeBuilder(
+      reporter.createChangeBuilder(
         message: 'Add @JsonSerializable()',
         priority: 2,
-      );
-      changeBuilder.addDartFileEdit((builder) {
+      )
+      .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           SourceRange(offset - classLength, 0),
           '@JsonSerializable()\n',

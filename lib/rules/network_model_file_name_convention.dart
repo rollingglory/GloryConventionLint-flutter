@@ -7,7 +7,7 @@ import 'package:glory_convention_lint/helper/string_extention.dart';
 import '../helper/documentation_constants.dart';
 
 class NetworkModelFileNameConvention extends DartLintRule {
-  NetworkModelFileNameConvention() : super(code: _code);
+  const NetworkModelFileNameConvention() : super(code: _code);
 
   static const _code = LintCode(
     name: 'network_model_file_name_convention',
@@ -24,10 +24,10 @@ class NetworkModelFileNameConvention extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
+      final declaredElement = node.declaredElement;
       if (declaredElement != null) {
-        var fileName = declaredElement.source.uri.path;
-        var classes = declaredElement.classes;
+        final fileName = declaredElement.source.uri.path;
+        final classes = declaredElement.classes;
 
         if (classes.isEmpty){
           if (fileName.isPathModel()) {
@@ -38,8 +38,8 @@ class NetworkModelFileNameConvention extends DartLintRule {
           return;
         }
 
-        var offset = classes.first.nameOffset;
-        var length = classes.first.nameLength;
+        final offset = classes.first.nameOffset;
+        final length = classes.first.nameLength;
         if (fileName.isPathModel()) {
           if (!fileName.isCorrectFileModelName()) {
             reporter.reportErrorForOffset(code, offset, length);

@@ -8,7 +8,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 import '../../helper/string_extention.dart';
 
 class CorrectBaseResponseImportConvention extends DartLintRule {
-  CorrectBaseResponseImportConvention() : super(code: _incorrectImport);
+  const CorrectBaseResponseImportConvention() : super(code: _incorrectImport);
 
   static const _incorrectImport = LintCode(
       name: 'correct_base_response_import_convention',
@@ -21,8 +21,8 @@ class CorrectBaseResponseImportConvention extends DartLintRule {
   static const _baseNotImplementedError = LintCode(
     name: 'correct_base_response_import',
     problemMessage:
-        "This method should implement BaseResponse or BaseListResponse",
-    correctionMessage: "Add BaseResponse or BaseListResponse to your method",
+        'This method should implement BaseResponse or BaseListResponse',
+    correctionMessage: 'Add BaseResponse or BaseListResponse to your method',
   );
 
   @override
@@ -33,13 +33,13 @@ class CorrectBaseResponseImportConvention extends DartLintRule {
   ) {
     context.registry.addCompilationUnit(
       (node) {
-        var declaredElement = node.declaredElement;
+        final declaredElement = node.declaredElement;
         if (declaredElement != null) {
-          var path = declaredElement.source.uri.path;
+          final path = declaredElement.source.uri.path;
           if (path.isPathServices()) {
-            var classes = declaredElement.classes;
-            for (var element in classes) {
-              for (var field in element.methods) {
+            final classes = declaredElement.classes;
+            for (final element in classes) {
+              for (final field in element.methods) {
                 if (!field.toString().isCorrectUsingBaseResponse()) {
                   reporter.reportErrorForOffset(
                     _baseNotImplementedError,
@@ -49,8 +49,8 @@ class CorrectBaseResponseImportConvention extends DartLintRule {
                 }
               }
             }
-            var imports = node.directives;
-            for (var import in imports) {
+            final imports = node.directives;
+            for (final import in imports) {
               if (import.toString().isCorrectFileBaseResponse()) {
                 if (!path.isPathRGBCodeBase()) {
                   reporter.reportErrorForOffset(

@@ -7,7 +7,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 import '../../helper/string_extention.dart';
 
 class PreferStaticConstLangVariable extends DartLintRule {
-  PreferStaticConstLangVariable() : super(code: _code);
+  const PreferStaticConstLangVariable() : super(code: _code);
 
   static const _code = LintCode(
       name: 'prefer_static_const_lang_variable',
@@ -22,10 +22,10 @@ class PreferStaticConstLangVariable extends DartLintRule {
   ) {
     context.registry.addVariableDeclarationList(
       (node) {
-        var variables = node.variables;
+        final variables = node.variables;
         String sourceCode = node.toSource();
         if (sourceCode.isPathLang()) {
-          for (var variable in variables) {
+          for (final variable in variables) {
             if (!variable.isConst) {
               reporter.reportErrorForToken(_code, variable.name);
             }

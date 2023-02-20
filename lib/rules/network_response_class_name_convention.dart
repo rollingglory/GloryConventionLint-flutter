@@ -11,7 +11,7 @@ import '../../helper/string_extention.dart';
 import '../helper/lint_type_constant.dart';
 
 class NetworkResponseClassNameConvention extends DartLintRule {
-  NetworkResponseClassNameConvention() : super(code: _code);
+  const NetworkResponseClassNameConvention() : super(code: _code);
 
   static const _code = LintCode(
       name: 'network_response_class_name_convention',
@@ -27,15 +27,15 @@ class NetworkResponseClassNameConvention extends DartLintRule {
   ) {
     context.registry.addCompilationUnit(
       (node) {
-        var declaredElement = node.declaredElement;
+        final declaredElement = node.declaredElement;
         if (declaredElement != null) {
-          var fileName = declaredElement.source.uri.path;
-          var classess = declaredElement.classes;
+          final fileName = declaredElement.source.uri.path;
+          final classess = declaredElement.classes;
 
-          for (var classInstance in classess) {
-            var offset = classInstance.nameOffset;
-            var length = classInstance.nameLength;
-            var name = classInstance.name;
+          for (final classInstance in classess) {
+            final offset = classInstance.nameOffset;
+            final length = classInstance.nameLength;
+            final name = classInstance.name;
 
             if (fileName.isPathResponse()) {
               if (!name.isCorrectClassResponseName()) {
@@ -67,22 +67,22 @@ class _RenameResponseClassName extends DartFix {
       ) {
     context.registry.addCompilationUnit(
           (node) {
-        var declaredElement = node.declaredElement;
-        var classes = declaredElement?.classes;
+        final declaredElement = node.declaredElement;
+        final classes = declaredElement?.classes;
 
         if (classes == null || classes.isEmpty) return;
-        var className = classes.first.name;
-        String correctName =
+        final className = classes.first.name;
+        final correctName =
         className.renameClass(type: LintTypeConstant.responseLint);
 
-        var offset = classes.first.nameOffset;
-        var length = classes.first.nameLength;
+        final offset = classes.first.nameOffset;
+        final length = classes.first.nameLength;
 
-        final changeBuilder = reporter.createChangeBuilder(
+        reporter.createChangeBuilder(
           message: 'Change to $correctName',
           priority: 1,
-        );
-        changeBuilder.addDartFileEdit(
+        )
+        .addDartFileEdit(
               (builder) {
             builder.addSimpleReplacement(
               SourceRange(offset, length),

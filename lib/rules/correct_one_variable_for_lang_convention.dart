@@ -6,7 +6,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 import '../../helper/string_extention.dart';
 
 class CorrectOneVariableForLangConvention extends DartLintRule {
-  CorrectOneVariableForLangConvention() : super(code: _notAllowed);
+  const CorrectOneVariableForLangConvention() : super(code: _notAllowed);
 
   static const _notAllowed = LintCode(
     name: 'correct_one_variable_for_lang_convention',

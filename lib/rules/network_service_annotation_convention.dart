@@ -4,19 +4,19 @@ import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:glory_convention_lint/helper/string_extention.dart';
 
 import '../helper/documentation_constants.dart';
+import '../helper/string_extention.dart';
 
 //correct_network_service..
 
 class NetworkServiceAnnotationConvention extends DartLintRule {
-  NetworkServiceAnnotationConvention() : super(code: _code);
+  const NetworkServiceAnnotationConvention() : super(code: _code);
 
   static const _code = LintCode(
       name: 'network_service_annotation_convention',
       problemMessage:
-          "⚠️RestApi Annotation is required to declare service for retrofit pattern.",
+          '⚠️RestApi Annotation is required to declare service for retrofit pattern.',
       correctionMessage:
           "You have to add '@RestApi()' on top of your model class, \n\n${DocumentationConstants.serviceAnnotationConvention}",
       errorSeverity: ErrorSeverity.WARNING);
@@ -28,11 +28,11 @@ class NetworkServiceAnnotationConvention extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
+      final declaredElement = node.declaredElement;
       if (declaredElement != null) {
-        bool isLintSatisfied = false;
-        var fileName = declaredElement.source.uri.path;
-        var classes = declaredElement.classes;
+        var isLintSatisfied = false;
+        final fileName = declaredElement.source.uri.path;
+        final classes = declaredElement.classes;
 
         if (!fileName.isPathServices()) {
           return;
@@ -43,7 +43,7 @@ class NetworkServiceAnnotationConvention extends DartLintRule {
           return;
         }
 
-        for (var declaration in node.declarations) {
+        for (final declaration in node.declarations) {
           if (declaration is ClassDeclaration) {
             final classAnnotations = declaration.metadata;
             for (var annotation in classAnnotations) {
@@ -65,10 +65,10 @@ class NetworkServiceAnnotationConvention extends DartLintRule {
           return;
         }
 
-        ClassElement classInstance = classes.first;
-        var offset = classInstance.nameOffset;
+        final classInstance = classes.first;
+        final offset = classInstance.nameOffset;
 
-        var length = classInstance.nameLength;
+        final length = classInstance.nameLength;
 
         reporter.reportErrorForOffset(code, offset, length);
       }
@@ -89,18 +89,17 @@ class _AddRestApiAnnotation extends DartFix {
     List<AnalysisError> others,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
-      var classes = declaredElement?.classes;
-      int classLength = 'abstract class '.length;
+      final declaredElement = node.declaredElement;
+      final classes = declaredElement?.classes;
+      const classLength = 'abstract class '.length;
 
       if (classes == null || classes.isEmpty) return;
-      var offset = classes.first.nameOffset;
+      final offset = classes.first.nameOffset;
 
-      final changeBuilder = reporter.createChangeBuilder(
+      reporter.createChangeBuilder(
         message: 'Add @RestApi()',
         priority: 2,
-      );
-      changeBuilder.addDartFileEdit((builder) {
+      ).addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           SourceRange(offset - classLength, 0),
           '@RestApi()\n',

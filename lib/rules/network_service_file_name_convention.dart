@@ -1,13 +1,12 @@
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
-import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:glory_convention_lint/helper/string_extention.dart';
 
 import '../helper/documentation_constants.dart';
+import '../helper/string_extention.dart';
 
 class NetworkServiceFileNameConvention extends DartLintRule {
-  NetworkServiceFileNameConvention() : super(code: _code);
+  const NetworkServiceFileNameConvention() : super(code: _code);
 
   static const _code = LintCode(
     name: 'network_service_file_name_convention',
@@ -25,10 +24,10 @@ class NetworkServiceFileNameConvention extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
+      final declaredElement = node.declaredElement;
       if (declaredElement != null) {
-        var fileName = declaredElement.source.uri.path;
-        var classes = declaredElement.classes;
+        final fileName = declaredElement.source.uri.path;
+        final classes = declaredElement.classes;
 
         if (classes.isEmpty){
           if (fileName.isPathServices()) {
@@ -39,8 +38,8 @@ class NetworkServiceFileNameConvention extends DartLintRule {
           return;
         }
 
-        var offset = classes.first.nameOffset;
-        var length = classes.first.nameLength;
+        final offset = classes.first.nameOffset;
+        final length = classes.first.nameLength;
         if (fileName.isPathServices()) {
           if (!fileName.isCorrectFileServiceName()) {
             reporter.reportErrorForOffset(code, offset, length);

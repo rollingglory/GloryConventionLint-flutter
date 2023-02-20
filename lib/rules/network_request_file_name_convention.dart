@@ -8,7 +8,7 @@ import '../../helper/string_extention.dart';
 import '../helper/documentation_constants.dart';
 
 class NetworkRequestFileNameConvention extends DartLintRule {
-  NetworkRequestFileNameConvention() : super(code: _code);
+  const NetworkRequestFileNameConvention() : super(code: _code);
 
   static const _code = LintCode(
     name: 'network_request_file_name_convention',
@@ -24,11 +24,11 @@ class NetworkRequestFileNameConvention extends DartLintRule {
   ) {
     context.registry.addCompilationUnit(
       (node) {
-        var declaredElement = node.declaredElement;
+        final declaredElement = node.declaredElement;
         if (declaredElement != null) {
-          var path = declaredElement.source.uri.path;
+          final path = declaredElement.source.uri.path;
           if (path.isCorrectFileLang() && path.isPathLang()) {
-            var variables = declaredElement.topLevelVariables;
+            final variables = declaredElement.topLevelVariables;
             if (variables.length > 1) {
               for (int i = 1; i < variables.length; i++) {
                 reporter.reportErrorForOffset(

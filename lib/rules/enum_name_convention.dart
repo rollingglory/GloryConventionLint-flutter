@@ -2,20 +2,20 @@ import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:glory_convention_lint/helper/lint_type_constant.dart';
-import 'package:glory_convention_lint/helper/string_extention.dart';
 
 import '../helper/documentation_constants.dart';
+import '../helper/lint_type_constant.dart';
+import '../helper/string_extention.dart';
 
 class EnumNameConvention extends DartLintRule {
-  EnumNameConvention() : super(code: _code);
+  const EnumNameConvention() : super(code: _code);
 
   static const _code = LintCode(
     name: 'enum_name_convention',
-    problemMessage: "⚠️The enum name incorrect name for enum. "
-        "Enum should only contains their name without prefixes. Example: GiftEnum",
+    problemMessage: '⚠️The enum name incorrect name for enum. '
+        'Enum should only contains their name without prefixes. Example: GiftEnum',
     errorSeverity: ErrorSeverity.WARNING,
-    correctionMessage: "${DocumentationConstants.enumNameConvention}"
+    correctionMessage: DocumentationConstants.enumNameConvention
   );
 
   @override
@@ -26,15 +26,15 @@ class EnumNameConvention extends DartLintRule {
   ) {
 
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
+      final declaredElement = node.declaredElement;
       if (declaredElement != null) {
-        var fileName = declaredElement.source.uri.path;
-        var enums = declaredElement.enums;
+        final fileName = declaredElement.source.uri.path;
+        final enums = declaredElement.enums;
 
-        for (var enumInstance in enums) {
-          var offset = enumInstance.nameOffset;
-          var length = enumInstance.nameLength;
-          var name = enumInstance.name;
+        for (final enumInstance in enums) {
+          final offset = enumInstance.nameOffset;
+          final length = enumInstance.nameLength;
+          final name = enumInstance.name;
 
           if (fileName.isPathEnum()) {
             if (!name.isCorrectClassEnumName()) {
@@ -60,21 +60,23 @@ class _RenameEnumsClass extends DartFix {
     List<AnalysisError> others,
   ) {
     context.registry.addCompilationUnit((node) {
-      var declaredElement = node.declaredElement;
-      var enums = declaredElement?.enums;
+      final declaredElement = node.declaredElement;
+      final enums = declaredElement?.enums;
 
-      if (enums == null || enums.isEmpty) return;
-      var className = enums.first.name;
-      String correctName = className.renameClass(type: LintTypeConstant.enumLint);
+      if (enums == null || enums.isEmpty) {
+        return;
+      }
+      final className = enums.first.name;
+      final correctName = className.renameClass(type: LintTypeConstant.enumLint);
 
-      var offset = enums.first.nameOffset;
-      var length = enums.first.nameLength;
+      final offset = enums.first.nameOffset;
+      final length = enums.first.nameLength;
 
-      final changeBuilder = reporter.createChangeBuilder(
+      reporter.createChangeBuilder(
         message: 'Change to $correctName',
         priority: 1,
-      );
-      changeBuilder.addDartFileEdit((builder) {
+      )
+      .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           SourceRange(offset, length),
           correctName,

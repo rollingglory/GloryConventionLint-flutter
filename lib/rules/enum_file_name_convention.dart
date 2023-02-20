@@ -6,7 +6,7 @@ import 'package:glory_convention_lint/helper/string_extention.dart';
 import '../helper/documentation_constants.dart';
 
 class EnumFileNameConvention extends DartLintRule {
-  EnumFileNameConvention() : super(code: _code);
+  const EnumFileNameConvention() : super(code: _code);
 
   static const _code = LintCode(
     name: 'enum_file_name_convention',
@@ -37,8 +37,8 @@ class EnumFileNameConvention extends DartLintRule {
           return;
         }
 
-        var offset = enums.first.nameOffset;
-        var length = enums.first.nameLength;
+        final offset = enums.first.nameOffset;
+        final length = enums.first.nameLength;
         if (fileName.isPathEnum()) {
           if (!fileName.isCorrectFileEnumName()) {
             reporter.reportErrorForOffset(code, offset, length);
