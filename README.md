@@ -102,8 +102,14 @@ product_model.dart
 //DON'T
 product.dart
 productmodel.dart
-```
 ~~~
+Model file must always be put inside of model directory.
+~~~
+|- data
+  |- network
+    |- models
+~~~
+
 ### Model annotation convention
 Add @JsonSerializable() from Retrofit to above your class model name
 ~~~dart
@@ -118,7 +124,7 @@ class ProductModel {
 }
 @JsonSerializable()
 ~~~
-### Refer nullable for models convention
+### Prefer nullable for models convention
 Fields of Model class is preferable to have nullable field. example : String? instead of String
 ~~~dart
 //DO
@@ -154,6 +160,13 @@ The file name for services must end with service.dart
   product_service.dart //singular instead of plural
   ProductRequest.dart
 ~~~
+Service file must always be put inside of services directory.
+~~~
+|- data
+  |- network
+    |- services
+~~~
+
 ### Service annotation convention
 Add @RestApi() from Retrofit to above your class service name
 ~~~dart
@@ -183,6 +196,17 @@ Ensure to add _enum.dart prefix at the end of file name.
   product_enum.dart
 //DON'T
   ProductEnum.dart
+~~~
+Enum file must always be put inside of enum directory or network enum directory.
+~~~
+//Network enum directory
+|- data
+  |- network
+    |- enums
+
+//Enum directory
+|- data
+  |- enums
 ~~~
 
 ## Request Convention
