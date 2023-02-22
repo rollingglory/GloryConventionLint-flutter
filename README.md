@@ -59,28 +59,15 @@ analyzer:
 
 #### Other Convention
 * [Naming Convention](#naming-convention)
-* [Prefer single class per file convention](#prefer-single-class-per-file-convention)    
+* [Prefer single class or enum or top level declaration per file convention](#prefer-single-class-or-enum-or-top-level-declaration-per-file-convention)    
 * [Prefer static const lang variable convention](#prefer-static-const-lang-variable-convention)    
 * [Base response import convention](#base-response-import-convention) 
 * [One variable for lang convention](#prefer-one-variable-for-language-convention) 
 
 &nbsp;
 ## Examples
-
-#### Model Convention Example
-* [Model class name convention example](#model-class-name-convention-example)
-* [Model file name convention example](#model-file-name-convention-example)
-* [Model annotation convention example](#model-annotation-convention-example)
-* [Prefer nullable for models convention example](#prefer-nullable-for-models-convention-example)
-
-#### Service Convention Example
-* [Service class name convention example](#service-class-name-convention-example)
-* [Service file name convention example](#service-file-name-convention-example)
-* [Service annotation convention example](#service-annotation-convention-example)
-
-#### Enum Convention Example
-* [Enum name convention example](#enum-name-convention-example)
-* [Enum file name convention example](#enum-file-name-convention-example)
+* [Incorrect services rules](#incorrect-services-rules)
+* [Visual Studio Code problem reports ](#visual-studio-code-problem-reports)
 
 &nbsp;
 ---
@@ -92,18 +79,25 @@ Ensure to add Model word at the end of class name in models file
 //DO
 class ProductModel {}
 //DON'T
-class ProductModel {}
+class ProductServices {}
 ~~~
 ### Model file name convention
 The file name for models must end with _model.dart
-~~~dart
+~~~
 //DO
 product_model.dart
+
 //DON'T
 product.dart
 productmodel.dart
-```
 ~~~
+Model file must always be put inside of model directory.
+~~~
+|- data
+  |- network
+    |- models    
+~~~
+
 ### Model annotation convention
 Add @JsonSerializable() from Retrofit to above your class model name
 ~~~dart
@@ -118,7 +112,7 @@ class ProductModel {
 }
 @JsonSerializable()
 ~~~
-### Refer nullable for models convention
+### Prefer nullable for models convention
 Fields of Model class is preferable to have nullable field. example : String? instead of String
 ~~~dart
 //DO
@@ -126,6 +120,7 @@ Fields of Model class is preferable to have nullable field. example : String? in
   String? name;
   Product({this.name});
 }
+
 //DON'T
   class Product {
   String name;
@@ -146,20 +141,29 @@ Ensure to add Services word at the end of class name in models file
 ~~~
 ### Service file name convention
 The file name for services must end with service.dart
-~~~dart
+~~~
 //DO
   gift_services.dart
   product_services.dart
+
 //DON'T
-  product_service.dart //singular instead of plural
+  product_service.dart   //singular instead of plural
   ProductRequest.dart
 ~~~
+Services file must always be put inside of services directory.
+~~~
+|- data
+  |- network
+    |- services    
+~~~
+
 ### Service annotation convention
 Add @RestApi() from Retrofit to above your class service name
 ~~~dart
 //DO
 @RestApi() //RestApi Annotation is added
 abstract class ProductServices {}
+
 //DON'T
 //Forget to add RestApi Annotation
 abstract class ProductServices {}
@@ -171,6 +175,7 @@ Ensure to add Enum word at the end of enum class name in the file.
 ~~~dart
 //DO
 enum AvatarEnum {}
+
 //DON'T
 enum EnumAvatar {}
 ~~~
@@ -183,6 +188,17 @@ Ensure to add _enum.dart prefix at the end of file name.
   product_enum.dart
 //DON'T
   ProductEnum.dart
+~~~
+Enum file must always be put inside of enum directory or enum network directory.
+~~~
+//Enum Directory
+|- data
+  |- enums
+    
+//Enum Network Directory
+|- data
+  |- network
+    |- enums    
 ~~~
 
 ## Request Convention
@@ -349,18 +365,27 @@ Response file must always be put inside of response directory.
     </tbody>
 </table>
 
-### Prefer single class per file convention
-Avoid Declaring multiple classes in one file. It is best practice to declare one class in one file instead of multiple of class in one files, to reduce
-confusion. 
+### Prefer single class or enum or top level declaration per file convention
+Avoid Declaring multiple classes, enums, or top level declaration in one file. It is best practice to declare them in other file instead of multiple of them in one files, to reduce confusion.
 ~~~dart
 //DO
--- test.dart --
-class One = {};
+-- test_model.dart --
+class Test = {};
+
+-- test_enum.dart --
+enum TestEnum = {
+  testType
+};
+
+-- test_constants.dart --
+const String testConstant = "value";
+
 
 //DON'T
 -- test.dart --
+const String constantTest = "value";
 class One = {};
-class Two = {};
+enum TwoEnum = {};
 ~~~
 
 ### Prefer static const lang variable convention
