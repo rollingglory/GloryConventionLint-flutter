@@ -5,6 +5,7 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import '../../helper/string_extention.dart';
+import '../helper/documentation_constants.dart';
 
 class PreferStaticConstLangVariable extends DartLintRule {
   const PreferStaticConstLangVariable() : super(code: _code);
@@ -12,7 +13,8 @@ class PreferStaticConstLangVariable extends DartLintRule {
   static const _code = LintCode(
       name: 'prefer_static_const_lang_variable',
       problemMessage: '⚠️It is better to use static const variables.',
-      correctionMessage: 'Try add static const to the variable.');
+      correctionMessage: 'Try add static const to the variable.'
+          '\n\n${DocumentationConstants.preferStaticConstLangVariable}');
 
   @override
   void run(
@@ -23,7 +25,7 @@ class PreferStaticConstLangVariable extends DartLintRule {
     context.registry.addVariableDeclarationList(
       (node) {
         final variables = node.variables;
-        String sourceCode = node.toSource();
+        String sourceCode = resolver.source.uri.path;
         if (sourceCode.isPathLang()) {
           for (final variable in variables) {
             if (!variable.isConst) {

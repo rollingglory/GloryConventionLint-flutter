@@ -6,6 +6,7 @@ import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import '../../helper/string_extention.dart';
+import '../helper/documentation_constants.dart';
 import '../helper/lint_type_constant.dart';
 
 class NetworkResponseFileNameConvention extends DartLintRule {
@@ -15,7 +16,8 @@ class NetworkResponseFileNameConvention extends DartLintRule {
     name: 'network_response_file_name_convention',
     problemMessage:
         "⚠️The file name '{0}' isn't a correct name for response file.",
-    correctionMessage: 'Try changing the name that ends with "_response".',
+    correctionMessage: 'Try changing the name that ends with "_response".'
+        '\n\n${DocumentationConstants.responseFileNameConvention}',
   );
 
   @override
@@ -24,26 +26,23 @@ class NetworkResponseFileNameConvention extends DartLintRule {
     ErrorReporter reporter,
     CustomLintContext context,
   ) {
-    context.registry.addCompilationUnit(
-      (node) {
-        final declaredElement = node.declaredElement;
-        if (declaredElement != null) {
-          final path = declaredElement.source.uri.path;
-          final classess = declaredElement.classes;
+    context.registry.addCompilationUnit((node) {
+      var declaredElement = node.declaredElement;
+      if (declaredElement != null) {
+        var path = declaredElement.source.uri.path;
+        var classes = declaredElement.classes;
+        var fileName = declaredElement.source.shortName;
 
-          for (final classInstance in classess) {
-            final offset = classInstance.nameOffset;
-            final length = classInstance.nameLength;
-
-            if (path.isPathResponse()) {
-              if (!path.isCorrectFileResponseName()) {
-                reporter.reportErrorForOffset(_code, offset, length);
-              }
-            }
+        if (classes.isEmpty) return;
+        final offset = classes.first.nameOffset;
+        final length = classes.first.nameLength;
+        if (path.isPathServices()) {
+          if (!path.isCorrectFileServiceName()) {
+            reporter.reportErrorForOffset(code, offset, length, [fileName]);
           }
         }
-      },
-    );
+      }
+    });
   }
   @override
   List<Fix> getFixes() => [_RenameResponseClass()];

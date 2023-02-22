@@ -4,17 +4,15 @@ import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
 import '../helper/documentation_constants.dart';
-import '../helper/lint_type_constant.dart';
 import '../helper/string_extention.dart';
 
-class NetworkServiceClassNameConvention extends DartLintRule {
-  const NetworkServiceClassNameConvention() : super(code: _code);
+class NetworkAbstractServiceClassConvention extends DartLintRule {
+  const NetworkAbstractServiceClassConvention() : super(code: _code);
 
   static const _code = LintCode(
-      name: 'network_service_class_name_convention',
+      name: 'network_abstract_service_class_convention',
       problemMessage:
-          "⚠️The class name isn't a correct name for service class. "
-          "Services class should end with 'Services'. Example: GiftServices.",
+          "⚠️Services class must be abstract, Please add abstract modifier to the services class",
       errorSeverity: ErrorSeverity.WARNING,
       correctionMessage: DocumentationConstants.serviceClassNameConvention);
 
@@ -36,8 +34,10 @@ class NetworkServiceClassNameConvention extends DartLintRule {
           var name = classInstance.name;
 
           if (fileName.isPathServices()) {
-            if (!name.isCorrectClassServiceName()) {
-              reporter.reportErrorForOffset(code, offset, length);
+            if (name.isCorrectClassServiceName()) {
+              if (!classInstance.isAbstract) {
+                reporter.reportErrorForOffset(code, offset, length);
+              }
             }
           }
         }
@@ -46,10 +46,10 @@ class NetworkServiceClassNameConvention extends DartLintRule {
   }
 
   @override
-  List<Fix> getFixes() => [_RenameServicesClass()];
+  List<Fix> getFixes() => [_AddAbstractToServicesClass()];
 }
 
-class _RenameServicesClass extends DartFix {
+class _AddAbstractToServicesClass extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
@@ -61,24 +61,20 @@ class _RenameServicesClass extends DartFix {
     context.registry.addCompilationUnit((node) {
       final declaredElement = node.declaredElement;
       final classes = declaredElement?.classes;
+      final classLength = "class ".length;
 
       if (classes == null || classes.isEmpty) return;
-      final className = classes.first.name;
-      final correctName =
-          className.renameClass(type: LintTypeConstant.serviceLint);
-
       final offset = classes.first.nameOffset;
-      final length = classes.first.nameLength;
 
       reporter
           .createChangeBuilder(
-        message: 'Change to $correctName',
+        message: 'Add abstract',
         priority: 1,
       )
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
-          SourceRange(offset, length),
-          correctName,
+          SourceRange(offset - classLength, 0),
+          'abstract ',
         );
       });
     });

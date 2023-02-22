@@ -27,14 +27,17 @@ class NetworkRequestFileNameConvention extends DartLintRule {
         final declaredElement = node.declaredElement;
         if (declaredElement != null) {
           final path = declaredElement.source.uri.path;
+          var fileName = declaredElement.source.shortName;
+
           if (path.isCorrectFileLang() && path.isPathLang()) {
             final variables = declaredElement.topLevelVariables;
             if (variables.length > 1) {
               for (int i = 1; i < variables.length; i++) {
                 reporter.reportErrorForOffset(
-                  _code,
+                  code,
                   variables[i].nameOffset,
                   variables[i].nameLength,
+                  [fileName]
                 );
               }
             }

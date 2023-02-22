@@ -11,8 +11,9 @@ class EnumFileNameConvention extends DartLintRule {
   static const _code = LintCode(
     name: 'enum_file_name_convention',
     problemMessage:
-        "⚠️The file name incorrect name for enum file. file name should end with '_enum'",
-    correctionMessage: 'Try changing the file name that ends with "_enum". Example: user_enum.dart.${DocumentationConstants.enumFileNameConvention}',
+        "⚠️The file name '{0}' incorrect name for enum file. file name should end with '_enum'",
+    correctionMessage: 'Try changing the file name that ends with "_enum". Example: user_enum.dart.'
+        '\n\n${DocumentationConstants.enumFileNameConvention}',
     errorSeverity: ErrorSeverity.WARNING
   );
 
@@ -25,12 +26,13 @@ class EnumFileNameConvention extends DartLintRule {
     context.registry.addCompilationUnit((node) {
       var declaredElement = node.declaredElement;
       if (declaredElement != null) {
-        var fileName = declaredElement.source.uri.path;
+        var path = declaredElement.source.uri.path;
+        var fileName = declaredElement.source.shortName;
         var enums = declaredElement.enums;
 
         if (enums.isEmpty){
-          if (fileName.isPathEnum()) {
-            if (!fileName.isCorrectFileEnumName()) {
+          if (path.isPathEnum()) {
+            if (!path.isCorrectFileEnumName()) {
               reporter.reportErrorForOffset(code, 0, 0);
             }
           }
@@ -39,9 +41,9 @@ class EnumFileNameConvention extends DartLintRule {
 
         final offset = enums.first.nameOffset;
         final length = enums.first.nameLength;
-        if (fileName.isPathEnum()) {
-          if (!fileName.isCorrectFileEnumName()) {
-            reporter.reportErrorForOffset(code, offset, length);
+        if (path.isPathEnum()) {
+          if (!path.isCorrectFileEnumName()) {
+            reporter.reportErrorForOffset(code, offset, length, [fileName]);
           }
         }
       }

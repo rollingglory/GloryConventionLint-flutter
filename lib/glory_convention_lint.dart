@@ -1,6 +1,8 @@
 library glory_convention_lint;
 
 import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:glory_convention_lint/rules/network_abstract_service_class_convention.dart';
+
 import 'rules/correct_base_response_import_convention.dart';
 import 'rules/correct_one_variable_for_lang_convention.dart';
 import 'rules/enum_file_name_convention.dart';
@@ -17,8 +19,7 @@ import 'rules/network_service_annotation_convention.dart';
 import 'rules/network_service_class_name_convention.dart';
 import 'rules/network_service_file_name_convention.dart';
 import 'rules/prefer_nullable_model.dart';
-import 'rules/prefer_single_class_per_file.dart';
-import 'rules/prefer_single_enum_per_file.dart';
+import 'rules/prefer_single_top_level_per_file.dart';
 import 'rules/prefer_static_const_lang_variable.dart';
 import 'rules/prefer_upper_camel_case.dart';
 
@@ -35,6 +36,7 @@ class _RgbCustomLint extends PluginBase {
 
     const  NetworkServiceAnnotationConvention(),
     const NetworkServiceClassNameConvention(),
+    const NetworkAbstractServiceClassConvention(),
     const NetworkServiceFileNameConvention(),
 
     const NetworkResponseClassNameConvention(),
@@ -51,7 +53,9 @@ class _RgbCustomLint extends PluginBase {
 
     const PreferUpperCamelCase(),
     const PreferStaticConstLangVariable(),
-    const PreferSingleClassPerFile(),
-    const PreferSingleEnumPerFile(),
+    // const PreferSingleClassPerFile(),
+    // const PreferSingleEnumPerFile(),
+    const PreferSingleTopLevelPerFile(),
+
   ];
 }

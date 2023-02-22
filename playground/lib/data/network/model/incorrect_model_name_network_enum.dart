@@ -1,5 +1,0 @@
-
-
-class Booking{}
-
-class Schedule{}

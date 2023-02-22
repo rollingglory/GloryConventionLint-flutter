@@ -1,5 +1,4 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
@@ -69,6 +68,8 @@ class NetworkServiceAnnotationConvention extends DartLintRule {
         final offset = classInstance.nameOffset;
 
         final length = classInstance.nameLength;
+        var isAbstract = classInstance.isAbstract;
+        if (!isAbstract) return;
 
         reporter.reportErrorForOffset(code, offset, length);
       }
@@ -95,6 +96,8 @@ class _AddRestApiAnnotation extends DartFix {
 
       if (classes == null || classes.isEmpty) return;
       final offset = classes.first.nameOffset;
+      final isAbstract = classes.first.isAbstract;
+      if (!isAbstract) return;
 
       reporter.createChangeBuilder(
         message: 'Add @RestApi()',

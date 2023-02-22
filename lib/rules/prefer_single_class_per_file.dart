@@ -2,13 +2,16 @@ import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import '../helper/documentation_constants.dart';
+
 class PreferSingleClassPerFile extends DartLintRule {
   const PreferSingleClassPerFile() : super(code: _code);
 
   static const _code = LintCode(
       name: 'prefer_single_class_per_file',
       problemMessage: '⚠️Theres only should be one class per file',
-      correctionMessage: 'Movie class to another file \n\n',
+      correctionMessage: 'Movie class to another file'
+          '\n\n${DocumentationConstants.preferSingleClassPerFile}',
       errorSeverity: ErrorSeverity.WARNING);
 
   @override

@@ -11,12 +11,11 @@ class EnumNameConvention extends DartLintRule {
   const EnumNameConvention() : super(code: _code);
 
   static const _code = LintCode(
-    name: 'enum_name_convention',
-    problemMessage: '⚠️The enum name incorrect name for enum. '
-        'Enum should only contains their name without prefixes. Example: GiftEnum',
-    errorSeverity: ErrorSeverity.WARNING,
-    correctionMessage: DocumentationConstants.enumNameConvention
-  );
+      name: 'enum_name_convention',
+      problemMessage: '⚠️The enum name incorrect name for enum. '
+          'Enum should only contains their name without prefixes. Example: GiftEnum. ',
+      errorSeverity: ErrorSeverity.WARNING,
+      correctionMessage: DocumentationConstants.enumNameConvention);
 
   @override
   void run(
@@ -24,7 +23,6 @@ class EnumNameConvention extends DartLintRule {
     ErrorReporter reporter,
     CustomLintContext context,
   ) {
-
     context.registry.addCompilationUnit((node) {
       final declaredElement = node.declaredElement;
       if (declaredElement != null) {
@@ -67,16 +65,18 @@ class _RenameEnumsClass extends DartFix {
         return;
       }
       final className = enums.first.name;
-      final correctName = className.renameClass(type: LintTypeConstant.enumLint);
+      final correctName =
+          className.renameClass(type: LintTypeConstant.enumLint);
 
       final offset = enums.first.nameOffset;
       final length = enums.first.nameLength;
 
-      reporter.createChangeBuilder(
+      reporter
+          .createChangeBuilder(
         message: 'Change to $correctName',
         priority: 1,
       )
-      .addDartFileEdit((builder) {
+          .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           SourceRange(offset, length),
           correctName,

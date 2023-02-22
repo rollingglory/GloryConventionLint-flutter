@@ -11,8 +11,9 @@ class NetworkServiceFileNameConvention extends DartLintRule {
   static const _code = LintCode(
     name: 'network_service_file_name_convention',
     problemMessage:
-        "⚠️The file name isn't a correct name for services file. file name should end with '_services'",
-    correctionMessage: 'Try changing the file name that ends with "_services". Example: user_services.dart. \n\n${DocumentationConstants.serviceFileNameConvention}',
+        "⚠️The file name '{0}' isn't a correct name for services file. file name should end with '_services'",
+    correctionMessage: 'Try changing the file name that ends with "_services". Example: user_services.dart. '
+        '\n\n${DocumentationConstants.serviceFileNameConvention}',
       errorSeverity: ErrorSeverity.WARNING
 
   );
@@ -26,12 +27,13 @@ class NetworkServiceFileNameConvention extends DartLintRule {
     context.registry.addCompilationUnit((node) {
       final declaredElement = node.declaredElement;
       if (declaredElement != null) {
-        final fileName = declaredElement.source.uri.path;
+        final path = declaredElement.source.uri.path;
         final classes = declaredElement.classes;
+        var fileName = declaredElement.source.shortName;
 
         if (classes.isEmpty){
-          if (fileName.isPathServices()) {
-            if (!fileName.isCorrectFileServiceName()) {
+          if (path.isPathServices()) {
+            if (!path.isCorrectFileServiceName()) {
               reporter.reportErrorForOffset(code, 0, 0);
             }
           }
@@ -40,9 +42,9 @@ class NetworkServiceFileNameConvention extends DartLintRule {
 
         final offset = classes.first.nameOffset;
         final length = classes.first.nameLength;
-        if (fileName.isPathServices()) {
-          if (!fileName.isCorrectFileServiceName()) {
-            reporter.reportErrorForOffset(code, offset, length);
+        if (path.isPathServices()) {
+          if (!path.isCorrectFileServiceName()) {
+            reporter.reportErrorForOffset(code, offset, length,[fileName]);
           }
         }
       }

@@ -1,5 +1,4 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
@@ -15,7 +14,8 @@ class NetworkModelAnnotationConvention extends DartLintRule {
       problemMessage:
           '⚠️JsonSerializable Annotation is required to declare model for retrofit pattern.',
       correctionMessage:
-          "You have to add '@JsonSerializable()' on top of your model class. \n\n${DocumentationConstants.modelAnnotationConvention}",
+          "You have to add '@JsonSerializable()' on top of your model class. "
+              "\n\n${DocumentationConstants.modelAnnotationConvention}",
       errorSeverity: ErrorSeverity.WARNING);
 
   @override
@@ -31,6 +31,7 @@ class NetworkModelAnnotationConvention extends DartLintRule {
         final fileName = declaredElement.source.uri.path;
         final classes = declaredElement.classes;
 
+        //Check if path is model path
         if (!fileName.isPathModel()) {
           return;
         }
@@ -40,6 +41,7 @@ class NetworkModelAnnotationConvention extends DartLintRule {
           return;
         }
 
+        //Check if annotation already implementing JsonSerializable
         for (final declaration in node.declarations) {
           if (declaration is ClassDeclaration) {
             final classAnnotations = declaration.metadata;

@@ -6,6 +6,7 @@ import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import '../../helper/string_extention.dart';
+import '../helper/documentation_constants.dart';
 
 class CorrectBaseResponseImportConvention extends DartLintRule {
   const CorrectBaseResponseImportConvention() : super(code: _incorrectImport);
@@ -14,15 +15,16 @@ class CorrectBaseResponseImportConvention extends DartLintRule {
       name: 'correct_base_response_import_convention',
       problemMessage:
           '⚠️The BaseResponse and BaseListResponse must be imported from rollingglory_codebase',
-      correctionMessage:
-          'Try to correct the source of your base responses. \n\n See documentation : ',
+      correctionMessage: 'Try to correct the source of your base responses.'
+          '\n\n${DocumentationConstants.baseResponseImportConvention}',
       errorSeverity: ErrorSeverity.WARNING);
 
   static const _baseNotImplementedError = LintCode(
     name: 'correct_base_response_import',
     problemMessage:
         'This method should implement BaseResponse or BaseListResponse',
-    correctionMessage: 'Add BaseResponse or BaseListResponse to your method',
+    correctionMessage: 'Add BaseResponse or BaseListResponse to your method'
+        '\n\n${DocumentationConstants.baseResponseImportConvention}',
   );
 
   @override
