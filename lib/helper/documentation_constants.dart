@@ -40,7 +40,7 @@ class DocumentationConstants {
 
   static const namingConvention = "${viewDocumentation}${baseDocumentationUrl}naming-convention";
   static const preferSingleClassPerFile =
-      "${viewDocumentation}${baseDocumentationUrl}prefer-single-class-per-file";
+      "${viewDocumentation}${baseDocumentationUrl}prefer-single-class-or-enum-or-top-level-declaration-per-file-convention";
   static const preferStaticConstLangVariable =
       "${viewDocumentation}${baseDocumentationUrl}prefer-static-const-lang-variable";
   static const baseResponseImportConvention =
