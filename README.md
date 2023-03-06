@@ -1,3 +1,10 @@
+
+[![Pub Version](https://img.shields.io/pub/v/glory_convention_lint?logo=dart&logoColor=white)](https://pub.dev/packages/glory_convention_lint/)
+[![Dart SDK Version](https://badgen.net/pub/sdk-version/glory_convention_lint)](https://pub.dev/packages/glory_convention_lint/)
+[![License](https://img.shields.io/github/license/rollingglory/GloryConventionLint-flutter)](https://github.com/rollingglory/GloryConventionLint-flutter/blob/master/LICENSE)
+
+&nbsp;
+&nbsp;
 <img align="left" width="60" height="60" src="https://avatars1.githubusercontent.com/u/30823810?s=100&v=4"> </img>
 
 **RollingGlory** is Company or Creative Digital Media studio based in Bandung, Indonesia.
@@ -92,7 +99,7 @@ Ensure to add Model word at the end of class name in models file
 //DO
 class ProductModel {}
 //DON'T
-class ProductModel {}
+class Model {}
 ~~~
 ### Model file name convention
 The file name for models must end with _model.dart
